@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Premiere Application</string>
+    <string name="add_1">Add 1</string>
+    <string name="minus_1">Minus 1</string>
 </resources>

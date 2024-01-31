@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Premiere Application</string>
+    <string name="add_1">Ajouter 1</string>
+    <string name="minus_1">Soustraire 1</string>
+</resources>
