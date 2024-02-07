@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -32,7 +33,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ca.qc.cstj.composables.R
+import ca.qc.cstj.composables.data.Data
+import ca.qc.cstj.composables.models.Meditation
 import ca.qc.cstj.composables.ui.composables.meditations.CurrentMeditationCard
+import ca.qc.cstj.composables.ui.composables.meditations.FeatureMeditationCard
+import ca.qc.cstj.composables.ui.composables.meditations.MeditationContent
 import ca.qc.cstj.composables.ui.theme.ButtonBlue
 import ca.qc.cstj.composables.ui.theme.ComposablesTheme
 import ca.qc.cstj.composables.ui.theme.DarkButtonBlue
@@ -47,18 +52,19 @@ fun MeditationScreen() {
             .background(DeepBlue)
     ) {
         HeaderSection()
-        TagSection(
-            tags = listOf(
-                "Sweet sleep", "Sleep Tight", "Insomnia", "Good Dreams", "Mood Booster", "Depression"
-            )
-        )
-        CurrentMeditationCard()
-        FeaturesSection()
+        TagSection(tags = Data.meditationTags)
+        CurrentMeditationCard(MeditationContent(Data.meditations.random()))
+        FeaturesSection(meditations = Data.meditations.shuffled())
     }
 }
 
 @Composable
-fun FeaturesSection() {
+fun FeaturesSection(meditations: List<Meditation>) {
+
+    val meditationContents = meditations.map { m ->
+        MeditationContent(m)
+    }
+
     Text(
         text = stringResource(R.string.features),
         style = MaterialTheme.typography.headlineSmall,
@@ -68,7 +74,9 @@ fun FeaturesSection() {
         rows = GridCells.Fixed(2),
         contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp)
     ) {
-
+        items(meditationContents) {
+            FeatureMeditationCard(meditationContent = it)
+        }
     }
 }
 
