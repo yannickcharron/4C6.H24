@@ -32,8 +32,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.qc.cstj.composables.R
-import ca.qc.cstj.composables.data.Data
 import ca.qc.cstj.composables.models.Meditation
 import ca.qc.cstj.composables.ui.composables.meditations.CurrentMeditationCard
 import ca.qc.cstj.composables.ui.composables.meditations.FeatureMeditationCard
@@ -45,21 +46,26 @@ import ca.qc.cstj.composables.ui.theme.DeepBlue
 import ca.qc.cstj.composables.ui.theme.TextWhite
 
 @Composable
-fun MeditationScreen() {
+fun MeditationScreen(viewModel: MeditationScreenViewModel = viewModel()) {
+
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(DeepBlue)
     ) {
-        HeaderSection()
-        TagSection(tags = Data.meditationTags)
-        CurrentMeditationCard(MeditationContent(Data.meditations.random()))
-        FeaturesSection(meditations = Data.meditations.shuffled())
+        HeaderSection(name = uiState.value.name)
+        TagSection(tags = uiState.value.tags)
+        CurrentMeditationCard(MeditationContent(uiState.value.currentMeditation))
+        FeaturesSection(
+            meditations = uiState.value.featuresMeditations,
+            onStartClick = { viewModel.startMeditation() })
     }
 }
 
 @Composable
-fun FeaturesSection(meditations: List<Meditation>) {
+fun FeaturesSection(meditations: List<Meditation>, onStartClick: () -> Unit) {
 
     val meditationContents = meditations.map { m ->
         MeditationContent(m)
@@ -75,7 +81,7 @@ fun FeaturesSection(meditations: List<Meditation>) {
         contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp)
     ) {
         items(meditationContents) {
-            FeatureMeditationCard(meditationContent = it)
+            FeatureMeditationCard(meditationContent = it, onStartClick = { onStartClick() })
         }
     }
 }
@@ -115,7 +121,7 @@ fun TagSection(tags: List<String>) {
 }
 
 @Composable
-fun HeaderSection(name: String = "Yannick") {
+fun HeaderSection(name: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
