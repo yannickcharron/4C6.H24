@@ -1,4 +1,4 @@
-package ca.qc.cstj.composables.ui.screens
+package ca.qc.cstj.composables.ui.screens.meditation
 
 import ca.qc.cstj.composables.models.Meditation
 

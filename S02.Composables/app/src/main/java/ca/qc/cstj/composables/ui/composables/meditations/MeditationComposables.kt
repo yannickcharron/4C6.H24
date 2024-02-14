@@ -1,5 +1,6 @@
 package ca.qc.cstj.composables.ui.composables.meditations
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -114,7 +115,10 @@ fun FeatureMeditationCard(
                     tint = TextWhite
                 )
                 Button(colors = ButtonDefaults.buttonColors(containerColor = ButtonBlue, contentColor = TextWhite),
-                    onClick = { onStartClick() }
+                    onClick = {
+                        Log.d("Yannick:FeatureMeditationCard", "3")
+                        onStartClick()
+                    }
                 ) {
                     Text(text = stringResource(R.string.start), fontSize = 14.sp, fontWeight = FontWeight.Bold)
                 }

@@ -1,4 +1,4 @@
-package ca.qc.cstj.composables.ui.screens
+package ca.qc.cstj.composables.ui.screens.meditation
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -14,20 +14,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -56,21 +53,28 @@ fun MeditationScreen(viewModel: MeditationScreenViewModel = viewModel()) {
             .background(DeepBlue)
     ) {
         HeaderSection(name = uiState.value.name)
-        TagSection(tags = uiState.value.tags)
+        TagSection(
+            tags = uiState.value.tags,
+            selectedTag = uiState.value.selectedTag,
+            onTagClick = { selectedTag -> viewModel.updateTag(selectedTag) }
+        )
         CurrentMeditationCard(MeditationContent(uiState.value.currentMeditation))
         FeaturesSection(
             meditations = uiState.value.featuresMeditations,
-            onStartClick = { viewModel.startMeditation() })
+            onStartClick = { index ->
+                Log.d("Yannick:MeditationScreen", "1")
+                viewModel.startMeditation(index)
+            })
     }
 }
 
 @Composable
-fun FeaturesSection(meditations: List<Meditation>, onStartClick: () -> Unit) {
+fun FeaturesSection(meditations: List<Meditation>, onStartClick: (Int) -> Unit) {
 
     val meditationContents = meditations.map { m ->
         MeditationContent(m)
     }
-
+    
     Text(
         text = stringResource(R.string.features),
         style = MaterialTheme.typography.headlineSmall,
@@ -80,18 +84,23 @@ fun FeaturesSection(meditations: List<Meditation>, onStartClick: () -> Unit) {
         rows = GridCells.Fixed(2),
         contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp)
     ) {
-        items(meditationContents) {
-            FeatureMeditationCard(meditationContent = it, onStartClick = { onStartClick() })
+        itemsIndexed(meditationContents) { index, meditation ->
+            FeatureMeditationCard(meditationContent = meditation, onStartClick =
+            {
+                Log.d("Yannick:FeaturesSection", "2")
+                onStartClick(index)
+            })
         }
     }
 }
 
 @Composable
-fun TagSection(tags: List<String>) {
+fun TagSection(
+    tags: List<String>,
+    selectedTag: String,
+    onTagClick: (String) -> Unit
+) {
 
-    var selectedTag by remember {
-        mutableStateOf(tags.random())
-    }
     Log.d("TagSection", selectedTag)
 
     LazyRow(
@@ -103,7 +112,8 @@ fun TagSection(tags: List<String>) {
             Box(modifier = Modifier
                 .padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
                 .clickable {
-                    selectedTag = it
+                    onTagClick(it)
+                    //viewModel.updateTag(selectedTag)
                 }
                 .clip(RoundedCornerShape(10.dp))
                 .background(

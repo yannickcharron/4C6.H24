@@ -1,5 +1,6 @@
-package ca.qc.cstj.composables.ui.screens
+package ca.qc.cstj.composables.ui.screens.meditation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ca.qc.cstj.composables.data.Data
@@ -28,10 +29,10 @@ class MeditationScreenViewModel : ViewModel() {
     }
 
 
-    fun startMeditation() {
+    fun startMeditation(index: Int) {
         _uiState.update {
             _uiState.value.copy(
-                currentMeditation = Data.meditations.random()
+                currentMeditation = _uiState.value.featuresMeditations[index]
             )
         }
     }
@@ -41,11 +42,23 @@ class MeditationScreenViewModel : ViewModel() {
             while (true) {
                 _uiState.update {
                     _uiState.value.copy(
-                        featuresMeditations = Data.meditations.shuffled()
+                        featuresMeditations = Data.meditations.filter { m ->
+                            m.tags.contains(_uiState.value.selectedTag)
+                        }
                     )
                 }
                 delay(15000L)
             }
+        }
+    }
+
+    fun updateTag(selectedTag: String) {
+        Log.d("Yannick:ViewModel", selectedTag)
+        _uiState.update {
+            _uiState.value.copy(
+                selectedTag = selectedTag,
+                featuresMeditations = Data.meditations.filter { m -> m.tags.contains(selectedTag) }
+            )
         }
     }
 
