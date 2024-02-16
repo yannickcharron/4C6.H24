@@ -4,4 +4,10 @@
     <string name="welcome_message">We wish you a good day!</string>
     <string name="features">Features</string>
     <string name="start">Start</string>
+    <string name="life">Life</string>
+    <string name="shield">Shield</string>
+    <string name="energy">Energy</string>
+    <string name="treasure">Treasure</string>
+    <string name="level">Level %d</string>
+    <string name="lift_off">Lift off</string>
 </resources>
