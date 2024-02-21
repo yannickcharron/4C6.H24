@@ -1,5 +1,7 @@
 package ca.qc.cstj.composables.models
 
+import kotlin.random.Random
+
 data class Pilot(val name: String) {
 
     private var _experience: Int = 0
@@ -17,11 +19,19 @@ data class Pilot(val name: String) {
     val isFlying: Boolean get() = _isFlying
 
 
-    fun fly(revolutionsCount: Int = 2) {
+    fun fly() {
         if (canFly()) {
             _isFlying = true
             _energy--
         }
+    }
+
+    fun completedFlight(revolutions: Int) {
+        _isFlying = false
+        _life -= Random.nextInt(0, 2) //[0 ; 2[ => entre 0 et 1
+        _shield -= (0..2).random() //[0 ; 2] => entre 0 et 2
+        _treasure += Random.nextInt(0, revolutions)
+        _experience += revolutions * Random.nextInt(1, level + 2)
     }
 
     private fun canFly(): Boolean {

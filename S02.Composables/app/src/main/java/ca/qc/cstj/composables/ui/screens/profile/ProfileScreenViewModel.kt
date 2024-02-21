@@ -13,8 +13,20 @@ class ProfileScreenViewModel : ViewModel() {
     fun liftOff() {
         _uiState.value.pilot.fly()
         _uiState.update {
-            //_pilot.fly()
-            ProfileUiState(pilot = _uiState.value.pilot)
+            ProfileUiState(pilot = _uiState.value.pilot, revolution = _uiState.value.revolution)
+        }
+    }
+
+    fun tripFinished() {
+        _uiState.value.pilot.completedFlight(_uiState.value.revolution)
+        _uiState.update {
+            ProfileUiState(pilot = _uiState.value.pilot, revolution = _uiState.value.revolution)
+        }
+    }
+
+    fun onRevolutionChange(newRevolutionValue: Int) {
+        _uiState.update {
+            ProfileUiState(pilot = _uiState.value.pilot, revolution = newRevolutionValue)
         }
     }
 

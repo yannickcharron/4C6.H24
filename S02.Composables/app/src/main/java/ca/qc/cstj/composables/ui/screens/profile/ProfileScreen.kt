@@ -2,8 +2,9 @@ package ca.qc.cstj.composables.ui.screens.profile
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.AnimationEndReason
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,11 +13,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +39,7 @@ import ca.qc.cstj.composables.ui.theme.ButtonBlue
 import ca.qc.cstj.composables.ui.theme.ComposablesTheme
 import ca.qc.cstj.composables.ui.theme.DeepBlue
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 
 @Composable
@@ -52,34 +56,59 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel = viewModel()) {
     ) {
         PilotBanner(uiState.pilot)
         StatsSection(uiState.pilot)
-        AnimationSection()
-        LaunchConfiguration(onLiftOffClick = {
-            viewModel.liftOff()
-        })
+        AnimationSection(
+            isFlying = uiState.pilot.isFlying,
+            revolutions = uiState.revolution,
+            tripFinished = {
+                viewModel.tripFinished()
+            })
+        if (!uiState.pilot.isFlying) {
+            LaunchConfiguration(revolutions = uiState.revolution,
+                isFlying = uiState.pilot.isFlying,
+                onRevolutionChange = { newSliderValue ->
+                    viewModel.onRevolutionChange(newSliderValue)
+                },
+                onLiftOffClick = {
+                    viewModel.liftOff()
+                })
+        }
     }
 }
 
 @Composable
-fun AnimationSection() {
+fun AnimationSection(isFlying: Boolean, revolutions: Int, tripFinished: () -> Unit) {
 
     val rocketAngle = remember {
         Animatable(0f)
     }
 
-    LaunchedEffect(true) {
+
+    LaunchedEffect(isFlying) {
         launch {
-            rocketAngle.animateTo(
-                targetValue = 360f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(durationMillis = 2000, easing = FastOutSlowInEasing)
+            if (isFlying) {
+                val animationResult = rocketAngle.animateTo(
+                    targetValue = 360f,
+                    animationSpec = repeatable(
+                        iterations = revolutions,
+                        animation = tween(durationMillis = 2000, easing = LinearEasing)
+                    )
                 )
-            )
+
+                if (animationResult.endReason == AnimationEndReason.Finished) {
+                    tripFinished()
+                    rocketAngle.snapTo(0f)
+
+                }
+            }
         }
     }
 
 
-
-    ConstraintLayout(modifier = Modifier.padding(top = 16.dp)) {
+    ConstraintLayout(
+        modifier = Modifier
+            .height(325.dp)
+            .padding(vertical = 16.dp)
+    ) {
 
         val (planet, rocket) = createRefs()
 
@@ -110,8 +139,25 @@ fun AnimationSection() {
 }
 
 @Composable
-fun LaunchConfiguration(onLiftOffClick: () -> Unit) {
-    Button(modifier = Modifier.fillMaxWidth(.4f),
+fun LaunchConfiguration(
+    revolutions: Int,
+    isFlying: Boolean,
+    onRevolutionChange: (Int) -> Unit,
+    onLiftOffClick: () -> Unit
+) {
+
+    Slider(
+        enabled = !isFlying,
+        value = revolutions.toFloat(),
+        onValueChange = { newValue ->
+            onRevolutionChange(newValue.roundToInt())
+        },
+        valueRange = 1f..5f
+    )
+    Text(text = revolutions.toString())
+    Button(
+        modifier = Modifier.fillMaxWidth(.4f),
+        enabled = !isFlying,
         colors = ButtonDefaults.buttonColors(containerColor = ButtonBlue),
         onClick = { onLiftOffClick() }) {
         Text(text = stringResource(R.string.lift_off))
