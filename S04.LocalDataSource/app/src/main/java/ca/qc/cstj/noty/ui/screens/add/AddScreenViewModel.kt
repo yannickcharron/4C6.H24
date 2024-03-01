@@ -25,6 +25,9 @@ class AddScreenViewModel(application: Application)
         //Lancement d'un thread/coroutine
         viewModelScope.launch {
             try {
+
+                //TODO: Si titre vide
+                val title = _uiState.value.note.content.subSequence(0,20)
                 noteRepository.create(_uiState.value.note)
                 //TODO: Message à l'utilisateur
             } catch(ex: Exception) {
@@ -35,10 +38,13 @@ class AddScreenViewModel(application: Application)
     }
 
     fun updateTitle(newTitle: String) {
-
         _uiState.update {
             _uiState.value.copy(
-                note = _uiState.value.note.copy(title = newTitle)
+                note = _uiState.value.note.copy(title = newTitle),
+                isError = isNoteError(
+                    newTitle,
+                    _uiState.value.note.content
+                )
             )
         }
     }
@@ -46,7 +52,11 @@ class AddScreenViewModel(application: Application)
     fun updateContent(newContent: String) {
         _uiState.update {
             _uiState.value.copy(
-                note = _uiState.value.note.copy(content = newContent)
+                note = _uiState.value.note.copy(content = newContent),
+                isError = isNoteError(
+                    _uiState.value.note.title,
+                    newContent
+                )
             )
         }
     }
@@ -58,5 +68,10 @@ class AddScreenViewModel(application: Application)
             )
         }
     }
+
+    private fun isNoteError(title:String, content : String) : Boolean {
+        return title.isBlank() && content.isBlank()
+    }
+
 
 }

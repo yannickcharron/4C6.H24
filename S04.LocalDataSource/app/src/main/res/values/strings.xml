@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Noty</string>
+    <string name="msg_error_note">Note must have a title or a content</string>
 </resources>

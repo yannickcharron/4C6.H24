@@ -1,5 +1,6 @@
 package ca.qc.cstj.noty.ui.screens.add
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SubdirectoryArrowLeft
@@ -39,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -60,6 +63,8 @@ fun AddScreen(
 
     //Va changer à chacune des modifications d'état déclenchant une recomposition
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -86,15 +91,18 @@ fun AddScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.save()
-            }) {
-                Icon(Icons.Filled.Save, contentDescription = Icons.Filled.Add.name)
+            if(!uiState.value.isError) {
+                FloatingActionButton(onClick = {
+                    viewModel.save()
+                }) {
+                    Icon(Icons.Filled.Save, contentDescription = Icons.Filled.Add.name)
+                }
             }
         }
     ) { innerPaddings ->
         AddScreenContent(
             note = uiState.value.note,
+            isError = uiState.value.isError,
             onUpdateTitle = { newTitle -> viewModel.updateTitle(newTitle) },
             onUpdateContent = { viewModel.updateContent(it) },
             onUpdateColor = { viewModel.updateColor(it) },
@@ -106,6 +114,7 @@ fun AddScreen(
 @Composable
 fun AddScreenContent(
     note : Note,
+    isError : Boolean,
     onUpdateTitle : (String) -> Unit,
     onUpdateContent: (String) -> Unit,
     onUpdateColor :  (String) -> Unit,
@@ -125,6 +134,25 @@ fun AddScreenContent(
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
+            supportingText = {
+                if(isError) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text= stringResource(R.string.msg_error_note),
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            },
+            trailingIcon = {
+               if(isError) {
+                   Icon(
+                       imageVector = Icons.Filled.Error,
+                       contentDescription = stringResource(R.string.msg_error_note),
+                       tint = MaterialTheme.colorScheme.error
+                   )
+               }
+            },
+            isError = isError,
             value = note.title,
             onValueChange = { newValue ->
                 onUpdateTitle(newValue)
@@ -135,6 +163,7 @@ fun AddScreenContent(
                 .fillMaxWidth()
                 .height(250.dp),
             singleLine = false,
+            isError = isError,
             value = note.content,
             onValueChange = {
                 onUpdateContent(it)

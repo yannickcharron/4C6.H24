@@ -12,5 +12,5 @@ interface NoteRepository {
     suspend fun create(note: Note)
 
     @Query("SELECT * FROM notes")
-    fun retrieveAll() : List<Note>
+    suspend fun retrieveAll() : List<Note>
 }
