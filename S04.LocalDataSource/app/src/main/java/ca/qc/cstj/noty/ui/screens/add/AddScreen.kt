@@ -37,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -65,6 +66,20 @@ fun AddScreen(
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
+    LaunchedEffect(true) {
+       viewModel.eventsFlow.collect { event ->
+           when(event) {
+               is AddScreenViewModel.ScreenEvent.NoteCannotBeSaved -> {
+                   Toast.makeText(context, event.ex.message, Toast.LENGTH_LONG).show()
+               }
+               AddScreenViewModel.ScreenEvent.NoteSaved -> {
+                   navController.popBackStack()
+                   Toast.makeText(context, "Note saved", Toast.LENGTH_LONG).show()
+               }
+           }
+       }
+    }
+
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),

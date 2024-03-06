@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Noty</string>
     <string name="msg_error_note">Note must have a title or a content</string>
+    <string name="delete_it">Delete It</string>
+    <string name="cancel">Cancel</string>
+    <string name="msg_delete_dialog">Are you sure you want to delete this note?</string>
+    <string name="action_cannot_be_undone">This action cannot be undone</string>
 </resources>
