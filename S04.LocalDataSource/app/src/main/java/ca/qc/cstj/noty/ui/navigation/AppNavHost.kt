@@ -24,7 +24,7 @@ fun AppNavHost(navController: NavHostController) {
             AddScreen(navController = navController)
         }
         composable(Screen.Settings.route) {
-            SettingsScreen()
+            SettingsScreen(navController = navController)
         }
     }
 }

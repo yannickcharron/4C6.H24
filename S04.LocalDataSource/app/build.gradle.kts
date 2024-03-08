@@ -72,6 +72,8 @@ dependencies {
     implementation( "androidx.room:room-ktx:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 
+    //DataStore https://developer.android.com/topic/libraries/architecture/datastore?hl=fr
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     //Pour la navigation
     val nav_version = "2.7.7"

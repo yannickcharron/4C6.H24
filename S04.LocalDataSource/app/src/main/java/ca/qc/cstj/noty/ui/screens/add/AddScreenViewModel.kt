@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ca.qc.cstj.noty.data.database.AppDatabase
+import ca.qc.cstj.noty.data.repositories.SettingsRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -25,6 +26,19 @@ class AddScreenViewModel(application: Application)
     val eventsFlow = _eventsFlow.asSharedFlow()
 
     private val noteRepository = AppDatabase.getInstance(application).noteRepository()
+
+    private val settingsRepository = SettingsRepository(application)
+
+    init {
+        viewModelScope.launch {
+            settingsRepository.settings.collect { settings ->
+                val defaultColor = settings.noteColor
+                _uiState.update {
+                    _uiState.value.copy(note = _uiState.value.note.copy(color = defaultColor))
+                }
+            }
+        }
+    }
 
     fun save() {
 
