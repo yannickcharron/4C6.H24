@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ca.qc.cstj.remotedatasource.ui.screens.planets.components.PlanetCard
 
 @Composable
 fun PlanetsScreen(viewModel : PlanetsViewModel = viewModel()) {
@@ -14,8 +15,7 @@ fun PlanetsScreen(viewModel : PlanetsViewModel = viewModel()) {
 
     LazyColumn {
         items(uiState.planets) {
-            Text(text = it.name)
-            Text(text = it.temperature.toString())
+            PlanetCard(it)
         }
     }
 }

@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.ksp)
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 android {
@@ -64,6 +66,12 @@ dependencies {
     //Fuel (Client HTTP)
     implementation(libs.fuel.android)
     implementation(libs.fuel.json)
+
+    //Image provenant d'une URL
+    implementation(libs.landscapist.glide)
+
+    //Serialisation en JSON
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

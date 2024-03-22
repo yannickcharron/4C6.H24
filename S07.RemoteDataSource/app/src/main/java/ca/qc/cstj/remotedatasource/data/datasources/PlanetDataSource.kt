@@ -5,8 +5,11 @@ import ca.qc.cstj.remotedatasource.models.Planet
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
+import kotlinx.serialization.json.Json
 
 class PlanetDataSource {
+
+    private val json = Json { ignoreUnknownKeys = true }
 
     fun retrieveAll() : List<Planet> {
 
@@ -14,18 +17,22 @@ class PlanetDataSource {
 
         when(result) {
             is Result.Success -> {
-                val planetsJson = result.value.array()
+                return json.decodeFromString(result.value.content)
+//                val planetsJson = result.value.array()
+//
+//                //Transformer planetsJson en List<Planet>
+//                val planets = mutableListOf<Planet>()
+//
+//                for(i in 0 until planetsJson.length()) {
+//                    val planetJson = planetsJson.getJSONObject(i)
+//                    val planet = Planet(planetJson)
+//                    planets.add(planet)
+//                }
+//
+//                return planets
 
-                //Transformer planetsJson en List<Planet>
-                val planets = mutableListOf<Planet>()
 
-                for(i in 0 until planetsJson.length()) {
-                    val planetJson = planetsJson.getJSONObject(i)
-                    val planet = Planet(planetJson)
-                    planets.add(planet)
-                }
 
-                return planets
             }
             is Result.Failure -> {
                 throw result.error.exception

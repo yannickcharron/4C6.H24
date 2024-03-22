@@ -17,7 +17,9 @@ class PlanetRepository {
             while(true) {
                 try {
                     //emit équivalent à return mais dans flow
-                    emit(planetDataSource.retrieveAll())
+                    emit(planetDataSource.retrieveAll().map {
+                        it.copy(temperature = it.temperature - 273.15f)
+                    })
                 } catch (ex: Exception) {
                     emit(listOf())
                 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Remote DataSource</string>
+    <string name="format_celsius">%.2f °C</string>
 </resources>
