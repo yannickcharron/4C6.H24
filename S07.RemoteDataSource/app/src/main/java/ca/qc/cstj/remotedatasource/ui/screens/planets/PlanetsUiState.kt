@@ -2,6 +2,11 @@ package ca.qc.cstj.remotedatasource.ui.screens.planets
 
 import ca.qc.cstj.remotedatasource.models.Planet
 
-data class PlanetsUiState(
-    val planets : List<Planet> = listOf()
-)
+sealed class PlanetsUiState{
+    data object Loading : PlanetsUiState()
+    data class Error(val ex:Exception): PlanetsUiState()
+    data class Success(val planets : List<Planet> = listOf()) : PlanetsUiState()
+}
+
+
+
