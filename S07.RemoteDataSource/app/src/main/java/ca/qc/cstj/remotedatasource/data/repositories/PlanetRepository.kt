@@ -31,4 +31,22 @@ class PlanetRepository {
 
     }
 
+
+    fun retrieveOne(href: String) : Flow<ApiResult<Planet>> {
+
+        return flow {
+            while(true) {
+                try {
+                    emit(ApiResult.Loading)
+                    //emit équivalent à return mais dans flow
+                    emit(ApiResult.Success(planetDataSource.retrieveOne(href)))
+                } catch (ex: Exception) {
+                    emit(ApiResult.Error(ex))
+                }
+                delay(60000)
+            }
+        }.flowOn(Dispatchers.IO)
+
+    }
+
 }

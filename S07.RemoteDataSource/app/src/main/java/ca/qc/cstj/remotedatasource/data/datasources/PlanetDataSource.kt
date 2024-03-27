@@ -41,4 +41,17 @@ class PlanetDataSource {
 
     }
 
+
+    fun retrieveOne(href: String) :Planet {
+        val (req, res, result) = href.httpGet().responseJson()
+        when(result) {
+            is Result.Success -> {
+                return json.decodeFromString(result.value.content)
+            }
+            is Result.Failure -> {
+                throw result.error.exception
+            }
+        }
+    }
+
 }
