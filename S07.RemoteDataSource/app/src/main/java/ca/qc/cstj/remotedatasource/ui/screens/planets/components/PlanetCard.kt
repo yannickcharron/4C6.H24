@@ -1,5 +1,6 @@
 package ca.qc.cstj.remotedatasource.ui.screens.planets.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,11 +23,14 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun PlanetCard(planet: Planet) {
+fun PlanetCard(planet: Planet, onClick: (Planet)-> Unit = {}) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
+            . clickable {
+                onClick(planet)
+            }
     ) {
         Row(
             modifier = Modifier

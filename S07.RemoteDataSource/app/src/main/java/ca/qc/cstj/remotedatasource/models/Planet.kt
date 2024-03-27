@@ -6,6 +6,7 @@ import org.json.JSONObject
 
 @Serializable
 data class Planet(
+    val href: String,
     val name: String,
     val temperature: Float,
     @SerialName("icon") val image: String

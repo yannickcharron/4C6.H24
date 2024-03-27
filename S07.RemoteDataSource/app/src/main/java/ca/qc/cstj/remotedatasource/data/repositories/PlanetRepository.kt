@@ -25,7 +25,7 @@ class PlanetRepository {
                 } catch (ex: Exception) {
                     emit(ApiResult.Error(ex))
                 }
-                delay(10000)
+                delay(60000)
             }
         }.flowOn(Dispatchers.IO)
 

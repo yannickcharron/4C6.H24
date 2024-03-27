@@ -73,6 +73,10 @@ dependencies {
     //Serialisation en JSON
     implementation(libs.kotlinx.serialization.json)
 
+    //Pour la navigation entre les écrans
+    implementation(libs.destinations.core)
+    ksp(libs.destinations.ksp)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
