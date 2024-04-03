@@ -25,7 +25,7 @@ sealed class Screen(
 
     data object ProfileScreen : Screen(
         titleId = R.string.profile,
-        topBarOptions = TopBarOptions.Default,
+        topBarOptions = TopBarOptions(isTopBarVisible = false),
         bottomBarOptions = BottomBarOptions(isBottomBarVisible = true)
     )
 
@@ -34,9 +34,15 @@ sealed class Screen(
         topBarOptions = TopBarOptions(isBackButtonVisible = true),
         bottomBarOptions = BottomBarOptions(
             isBottomBarVisible = true,
-            selectedBottomBarItem = MainBottomBarItem.FavoritesItem
+            selectedBottomBarItem = MainBottomBarItem.ProfileItem
         )
     )
+
+    val isBottomBarVisible : Boolean
+        get() = bottomBarOptions.isBottomBarVisible
+
+    val isTopBarVisible: Boolean
+        get() = topBarOptions.isTopBarVisible
 
 }
 

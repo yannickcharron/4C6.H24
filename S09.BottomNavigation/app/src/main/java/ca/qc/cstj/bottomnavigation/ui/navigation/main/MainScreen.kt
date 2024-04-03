@@ -15,10 +15,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import ca.qc.cstj.bottomnavigation.ui.navigation.Screen
+import ca.qc.cstj.bottomnavigation.ui.navigation.core.screen
 import ca.qc.cstj.bottomnavigation.ui.navigation.main.components.MainBottomBar
+import ca.qc.cstj.bottomnavigation.ui.navigation.main.components.MainTopBar
 import ca.qc.cstj.bottomnavigation.ui.screens.NavGraphs
+import ca.qc.cstj.bottomnavigation.ui.screens.appCurrentDestinationAsState
+import ca.qc.cstj.bottomnavigation.ui.screens.startAppDestination
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.navigation.navigate
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -34,6 +38,9 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
     //TODO : onMainScreenEvent Callback (lambda)
 
     //TODO : currentScreen definition
+    //(gauche) ?: (droite) Si la partie de gauche est nulle la partie de droite est retournée
+    val currentScreen = navController.appCurrentDestinationAsState().value?.screen
+        ?: NavGraphs.root.startAppDestination.screen
 
     Scaffold(
         modifier = Modifier
@@ -48,11 +55,23 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                 )
             ),
         topBar = {
-
+            if(currentScreen.isTopBarVisible) {
+                MainTopBar(
+                    currentScreen = currentScreen,
+                    titleFormatArgs = listOf("").toTypedArray()
+                ) {
+                    navController.navigateUp()
+                }
+            }
         },
         bottomBar = {
-            MainBottomBar(currentScreen = Screen.WeatherScreen) {
-                
+            if(currentScreen.isBottomBarVisible) {
+                MainBottomBar(
+                    currentScreen = currentScreen,
+                    onNavigate = { destination ->
+                        navController.navigate(destination)
+                    }
+                )
             }
         },
         snackbarHost = {
