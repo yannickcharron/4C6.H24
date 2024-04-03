@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">S09.Depart.BottomNavigation</string>
+    <string name="medidate">Medidate</string>
+    <string name="weather">Weather</string>
+    <string name="profile">Profile</string>
+    <string name="player">Player</string>
+    <string name="bonjour">Bonjour à vous %s</string>
+    <string name="wind_speed_unit">km/h</string>
+    <string name="uv_unit">index</string>
+    <string name="humidity_unit">percentage %</string>
+    <string name="feels_like_temperature_in_celsius">Feels like %1$s°C</string>
+    <string name="temperature_value_in_celsius">%1$s°C</string>
+    <string name="humidity_label">humidity</string>
+    <string name="wind_speed_label">wind speed</string>
+    <string name="uv_index_label">uv</string>
+    <string name="today">Today</string>
+    <string name="forecast">Forecast</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="search_hint">Search for a city</string>
+    <string name="close_icon">Close Icon</string>
+    <string name="retry">Retry</string>
+    <string name="header_feels_like">🌡 Feels Like</string>
+    <string name="header_cloudiness">☁ CLOUDINESS</string>
+    <string name="header_humidity">💧 HUMIDITY</string>
+    <string name="header_sunrise">🌇 SUNRISE</string>
+    <string name="header_sunset">🌆 SUNSET</string>
+    <string name="header_wind">🌬 WIND</string>
+    <string name="header_pressure">⏲ PRESSURE</string>
+    <string name="geographic_position">Latitude: %.2f  Longitude: %.2f</string>
+    <string name="favorites">Favorites</string>
+
+</resources>
