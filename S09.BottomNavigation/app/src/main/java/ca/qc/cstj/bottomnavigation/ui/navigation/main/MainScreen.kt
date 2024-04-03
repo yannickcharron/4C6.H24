@@ -15,6 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import ca.qc.cstj.bottomnavigation.ui.navigation.Screen
+import ca.qc.cstj.bottomnavigation.ui.navigation.main.components.MainBottomBar
 import ca.qc.cstj.bottomnavigation.ui.screens.NavGraphs
 import com.ramcosta.composedestinations.DestinationsNavHost
 import kotlinx.coroutines.CoroutineScope
@@ -49,7 +51,9 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
 
         },
         bottomBar = {
-
+            MainBottomBar(currentScreen = Screen.WeatherScreen) {
+                
+            }
         },
         snackbarHost = {
 

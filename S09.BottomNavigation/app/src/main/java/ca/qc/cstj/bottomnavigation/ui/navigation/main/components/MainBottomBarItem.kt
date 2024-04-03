@@ -2,9 +2,17 @@ package ca.qc.cstj.bottomnavigation.ui.navigation.main.components
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.ui.graphics.vector.ImageVector
+import ca.qc.cstj.bottomnavigation.R
 import ca.qc.cstj.bottomnavigation.ui.navigation.Screen
 import ca.qc.cstj.bottomnavigation.ui.navigation.core.NavigationItem
+import ca.qc.cstj.bottomnavigation.ui.screens.destinations.FavoritesScreenDestination
+import ca.qc.cstj.bottomnavigation.ui.screens.destinations.ProfileScreenDestination
+import ca.qc.cstj.bottomnavigation.ui.screens.destinations.WeatherScreenDestination
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 
 
@@ -17,5 +25,24 @@ sealed class MainBottomBarItem(
     imageVector: ImageVector? = null
 ) : NavigationItem(destination, screen, labelId, iconId, imageVector) {
 
-    //TODO: Définir les items
+    data object WeatherItem : MainBottomBarItem(
+        destination = WeatherScreenDestination,
+        screen = Screen.WeatherScreen,
+        labelId = R.string.weather,
+        imageVector = Icons.Default.WbSunny
+    )
+
+    data object FavoritesItem : MainBottomBarItem(
+        destination = FavoritesScreenDestination,
+        screen = Screen.FavoritesScreen,
+        imageVector = Icons.Default.Favorite
+    )
+
+    data object ProfileItem : MainBottomBarItem(
+        destination = ProfileScreenDestination,
+        screen = Screen.ProfileScreen,
+        imageVector = Icons.Default.Person
+    )
+
+
 }

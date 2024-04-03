@@ -1,8 +1,6 @@
 package ca.qc.cstj.bottomnavigation.ui.screens.weather
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,12 +33,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.qc.cstj.bottomnavigation.R
 import ca.qc.cstj.bottomnavigation.core.NetworkService
-import ca.qc.cstj.bottomnavigation.core.format
-import ca.qc.cstj.bottomnavigation.core.toLocalDateTimeFormat
 import ca.qc.cstj.bottomnavigation.models.CurrentWeather
 import ca.qc.cstj.bottomnavigation.ui.components.ErrorMessage
 import ca.qc.cstj.bottomnavigation.ui.components.LoadingAnimation
-import ca.qc.cstj.bottomnavigation.ui.navigation.main.MainViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.skydoves.landscapist.glide.GlideImage
