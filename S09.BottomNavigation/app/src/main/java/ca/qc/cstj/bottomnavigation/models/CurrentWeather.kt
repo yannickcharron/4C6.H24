@@ -8,6 +8,7 @@ class CurrentWeather(dto: CurrentWeatherDTO) {
     val city :String = dto.name
     val country : String = dto.sys.country
     val locationDateTime : LocalDateTime = DateHelper.toCurrentWeatherLocationDateTime(dto.dt.toLong(), dto.timezone)
+    val systemDefaultDate: LocalDateTime = DateHelper.toSystemDefaultDateTime(dto.dt.toLong(), dto.timezone)
     val description : String = dto.weather[0].description
     val icon : String = dto.weather[0].icon
     val weather :String = dto.weather[0].main

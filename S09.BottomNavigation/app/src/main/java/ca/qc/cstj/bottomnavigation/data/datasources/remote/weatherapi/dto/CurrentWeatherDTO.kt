@@ -23,7 +23,7 @@ data class CurrentWeatherDTO(
     @SerialName("name")
     val name: String,
     @SerialName("rain")
-    val rain: Rain,
+    val rain: Rain = Rain(),
     @SerialName("sys")
     val sys: Sys,
     @SerialName("timezone")
@@ -53,13 +53,13 @@ data class Main(
     @SerialName("feels_like")
     val feelsLike: Double,
     @SerialName("grnd_level")
-    val grndLevel: Int,
+    val grndLevel: Int = 0,
     @SerialName("humidity")
     val humidity: Int,
     @SerialName("pressure")
     val pressure: Int,
     @SerialName("sea_level")
-    val seaLevel: Int,
+    val seaLevel: Int = 0,
     @SerialName("temp")
     val temp: Double,
     @SerialName("temp_max")
@@ -71,7 +71,7 @@ data class Main(
 @Serializable
 data class Rain(
     @SerialName("1h")
-    val h: Double
+    val h: Double = 0.0
 )
 
 @Serializable
@@ -105,7 +105,7 @@ data class Wind(
     @SerialName("deg")
     val deg: Int,
     @SerialName("gust")
-    val gust: Double,
+    val gust: Double = 0.0,
     @SerialName("speed")
     val speed: Double
 )

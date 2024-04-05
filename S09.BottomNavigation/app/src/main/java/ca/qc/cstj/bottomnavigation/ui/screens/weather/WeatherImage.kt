@@ -12,5 +12,16 @@ import ca.qc.cstj.bottomnavigation.models.CurrentWeather
 @Composable
 fun WeatherImage(currentWeather: CurrentWeather) {
 
+    val weatherType = WeatherType.factory(
+        currentWeather.weather,
+        currentWeather.description,
+        currentWeather.locationDateTime
+    )
+
+    Image(
+        modifier = Modifier.size(128.dp),
+        painter = painterResource(id = weatherType.id),
+        contentDescription = ""
+    )
 
 }

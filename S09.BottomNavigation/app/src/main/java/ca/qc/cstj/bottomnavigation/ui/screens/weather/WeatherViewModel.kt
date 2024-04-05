@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ca.qc.cstj.bottomnavigation.core.ApiResult
 import ca.qc.cstj.bottomnavigation.data.repositories.CurrentWeatherRepository
-import ca.qc.cstj.bottomnavigation.models.CurrentWeather
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,12 +22,25 @@ class WeatherViewModel : ViewModel() {
 
     private val currentWeatherRepository = CurrentWeatherRepository()
 
+    private var searchJob : Job? = null
 
     fun updateSearchTextState(newValue: String) {
         _searchTextState.value = newValue
     }
 
     fun search() {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            currentWeatherRepository.retrieveWithCityName(_searchTextState.value).collect { apiResult ->
+                _uiState.update {
+                    when(apiResult) {
+                        is ApiResult.Error -> WeatherUiState.Error(apiResult.exception)
+                        ApiResult.Loading -> WeatherUiState.Loading
+                        is ApiResult.Success -> WeatherUiState.Success(apiResult.data)
+                    }
+                }
+            }
+        }
 
     }
 

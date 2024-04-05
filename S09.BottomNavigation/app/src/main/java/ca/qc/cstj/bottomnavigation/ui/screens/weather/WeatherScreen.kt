@@ -33,6 +33,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ca.qc.cstj.bottomnavigation.R
 import ca.qc.cstj.bottomnavigation.core.NetworkService
+import ca.qc.cstj.bottomnavigation.core.format
+import ca.qc.cstj.bottomnavigation.core.toLocalDateTimeFormat
 import ca.qc.cstj.bottomnavigation.models.CurrentWeather
 import ca.qc.cstj.bottomnavigation.ui.components.ErrorMessage
 import ca.qc.cstj.bottomnavigation.ui.components.LoadingAnimation
@@ -95,40 +97,40 @@ fun CurrentWeatherSection(currentWeather: CurrentWeather) {
         ) {
             Text(
                 modifier = Modifier.padding(top = 8.dp),
-                text = "currentWeather.city",
+                text = currentWeather.city,
                 style = MaterialTheme.typography.headlineMedium
             )
             GlideImage(modifier = Modifier.size(64.dp),
-                imageModel = { NetworkService.FLAGS_API_URL.format("currentWeather.country") })
+                imageModel = { NetworkService.FLAGS_API_URL.format(currentWeather.country) })
             Text(
-                text = "currentWeather.locationDateTime.format()",
+                text = currentWeather.locationDateTime.format(),
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "currentWeather.systemDefaultDate.toLocalDateTimeFormat()",
+                text = currentWeather.systemDefaultDate.toLocalDateTimeFormat(),
                 style = MaterialTheme.typography.bodyMedium
             )
             WeatherImage(currentWeather = currentWeather)
             Text(
                 text = stringResource(
-                    R.string.temperature_value_in_celsius, "currentWeather.temperature.toString()"
+                    R.string.temperature_value_in_celsius, currentWeather.temperature.toString()
                 ),
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Bold,
             )
             Text(
                 modifier = Modifier.padding(start = 12.dp, end = 12.dp),
-                text = "currentWeather.weather",
+                text = currentWeather.weather,
                 style = MaterialTheme.typography.bodyMedium,
             )
             Text(
                 modifier = Modifier.padding(bottom = 4.dp), text = stringResource(
-                    R.string.feels_like_temperature_in_celsius, "currentWeather.feelsLike.toString()"
+                    R.string.feels_like_temperature_in_celsius, currentWeather.feelsLike.toString()
                 ), style = MaterialTheme.typography.bodySmall
             )
             Text(
                 modifier = Modifier.padding(bottom = 4.dp),
-                text = stringResource(id = R.string.geographic_position, "currentWeather.latitude", "currentWeather.longitude"),
+                text = stringResource(id = R.string.geographic_position, currentWeather.latitude, currentWeather.longitude),
                 style = MaterialTheme.typography.bodySmall
             )
             IconButton(onClick = { /*TODO*/ }) {
