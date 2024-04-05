@@ -7,7 +7,7 @@ object Constants {
 
 object NetworkService {
     private const val BASE_URL = "https://api.openweathermap.org"
-    private const val API_KEY = "ae152a05c72c228055a11bfe56cd3ac2"
+    private const val API_KEY = ""
     private const val UNITS = "metric"
     const val CURRENT_WEATHER_END_POINT = "$BASE_URL/data/2.5/weather"
     const val DEFAULTS_OPTIONS = "&units=${UNITS}&appid=${API_KEY}"
