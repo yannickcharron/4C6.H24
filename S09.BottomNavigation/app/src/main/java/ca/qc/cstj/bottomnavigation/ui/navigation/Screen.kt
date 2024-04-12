@@ -26,7 +26,7 @@ sealed class Screen(
     )
 
     data object FavoritesScreen : Screen(
-        titleId = R.string.favorites,
+        titleId = R.string.bonjour,
         topBarOptions = TopBarOptions.Default,
         bottomBarOptions = BottomBarOptions(isBottomBarVisible = true)
     )

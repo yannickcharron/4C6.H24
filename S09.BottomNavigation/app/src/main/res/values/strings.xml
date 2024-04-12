@@ -4,7 +4,6 @@
     <string name="weather">Weather</string>
     <string name="profile">Profile</string>
     <string name="player">Player</string>
-    <string name="bonjour">Bonjour à vous %s</string>
     <string name="wind_speed_unit">km/h</string>
     <string name="uv_unit">index</string>
     <string name="humidity_unit">percentage %</string>
@@ -30,6 +29,7 @@
     <string name="favorites">Favorites</string>
     <string name="navigate_to_mediaplayer">Navigate to MediaPlayer</string>
     <string name="map">Map</string>
-    <string name="loading">Loading %d/10 ...</string>
+    <string name="loading">Loading %d/%d …</string>
+    <string name="bonjour">Bonjour %s</string>
 
 </resources>

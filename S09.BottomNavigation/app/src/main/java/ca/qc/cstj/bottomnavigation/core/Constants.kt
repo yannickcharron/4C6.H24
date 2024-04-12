@@ -3,6 +3,8 @@ package ca.qc.cstj.bottomnavigation.core
 object Constants {
     const val DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss"
     const val NIGHT_HOUR = 18
+    const val LOADING_DURATION = 10000L
+    const val LOADING_TICK_INTERVAL = 1000L
 }
 
 object NetworkService {

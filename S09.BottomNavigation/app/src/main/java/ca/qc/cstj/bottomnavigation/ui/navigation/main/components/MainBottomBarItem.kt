@@ -36,7 +36,8 @@ sealed class MainBottomBarItem(
     data object FavoritesItem : MainBottomBarItem(
         destination = FavoritesScreenDestination,
         screen = Screen.FavoritesScreen,
-        imageVector = Icons.Default.Favorite
+        imageVector = Icons.Default.Favorite,
+        labelId = R.string.favorites
     )
 
     data object ProfileItem : MainBottomBarItem(
