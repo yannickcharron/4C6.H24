@@ -13,10 +13,12 @@ activityCompose = "1.8.2"
 composeBom = "2024.03.00"
 ksp = "1.9.0-1.0.13"
 composeDestination = "1.8.42-beta"
+mapsCompose = "4.3.3"
 materialIconsExtended = "1.6.4"
 serialization = "1.9.0"
 kotlinxSerializationJson = "1.6.0"
 fuel = "2.3.1"
+secretsGradlePlugin = "2.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,11 +39,13 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 landscapist-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapistGlide" }
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
+maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsCompose" }
 raamcosta-destination = { group ="io.github.raamcosta.compose-destinations", name="core", version.ref = "composeDestination" }
 raamcosta-destination-ksp = { group = "io.github.raamcosta.compose-destinations", name="ksp", version.ref = "composeDestination" }
 fuel-json = { module = "com.github.kittinunf.fuel:fuel-json", version.ref = "fuel" }
 fuel-android = { module = "com.github.kittinunf.fuel:fuel-android", version.ref = "fuel" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

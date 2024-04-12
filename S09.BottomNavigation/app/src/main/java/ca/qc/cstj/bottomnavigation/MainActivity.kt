@@ -8,8 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import ca.qc.cstj.bottomnavigation.ui.navigation.main.MainScreen
+import ca.qc.cstj.bottomnavigation.ui.NavGraphs
 import ca.qc.cstj.bottomnavigation.ui.theme.S07BottomNavigationTheme
+import com.ramcosta.composedestinations.DestinationsNavHost
 
 class MainActivity : ComponentActivity() {
 
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+                    DestinationsNavHost(navGraph = NavGraphs.root)
                 }
             }
         }

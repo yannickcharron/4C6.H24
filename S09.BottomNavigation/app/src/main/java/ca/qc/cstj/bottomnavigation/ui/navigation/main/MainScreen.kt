@@ -15,16 +15,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import ca.qc.cstj.bottomnavigation.ui.NavGraphs
+import ca.qc.cstj.bottomnavigation.ui.appCurrentDestinationAsState
 import ca.qc.cstj.bottomnavigation.ui.navigation.core.screen
 import ca.qc.cstj.bottomnavigation.ui.navigation.main.components.MainBottomBar
 import ca.qc.cstj.bottomnavigation.ui.navigation.main.components.MainTopBar
-import ca.qc.cstj.bottomnavigation.ui.screens.NavGraphs
-import ca.qc.cstj.bottomnavigation.ui.screens.appCurrentDestinationAsState
-import ca.qc.cstj.bottomnavigation.ui.screens.startAppDestination
+import ca.qc.cstj.bottomnavigation.ui.startAppDestination
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.navigate
 import kotlinx.coroutines.CoroutineScope
 
+
+@RootNavGraph
+@Destination
 @Composable
 fun MainScreen(viewModel: MainViewModel = viewModel()) {
 
@@ -40,7 +45,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
     //TODO : currentScreen definition
     //(gauche) ?: (droite) Si la partie de gauche est nulle la partie de droite est retournée
     val currentScreen = navController.appCurrentDestinationAsState().value?.screen
-        ?: NavGraphs.root.startAppDestination.screen
+        ?: NavGraphs.secondLevel.startAppDestination.screen
 
     Scaffold(
         modifier = Modifier
@@ -82,7 +87,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
         DestinationsNavHost(
             modifier = Modifier.padding(innerPaddings),
             navController = navController,
-            navGraph = NavGraphs.root
+            navGraph = NavGraphs.secondLevel
         )
     }
 }

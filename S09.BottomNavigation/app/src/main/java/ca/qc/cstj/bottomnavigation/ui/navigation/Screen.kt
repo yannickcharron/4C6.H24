@@ -11,6 +11,14 @@ sealed class Screen(
     val bottomBarOptions: BottomBarOptions = BottomBarOptions.None,
 ) {
 
+    data object MainScreen : Screen(
+        titleId = R.string.app_name
+    )
+
+    data object SplashScreen : Screen(
+        titleId = R.string.app_name
+    )
+
     data object WeatherScreen : Screen(
         titleId = R.string.weather,
         topBarOptions = TopBarOptions.Default,
@@ -36,6 +44,10 @@ sealed class Screen(
             isBottomBarVisible = true,
             selectedBottomBarItem = MainBottomBarItem.ProfileItem
         )
+    )
+
+    data object MapScreen : Screen(
+        titleId = R.string.map
     )
 
     val isBottomBarVisible : Boolean

@@ -8,11 +8,12 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.ui.graphics.vector.ImageVector
 import ca.qc.cstj.bottomnavigation.R
+import ca.qc.cstj.bottomnavigation.ui.destinations.FavoritesScreenDestination
+import ca.qc.cstj.bottomnavigation.ui.destinations.ProfileScreenDestination
+import ca.qc.cstj.bottomnavigation.ui.destinations.WeatherScreenDestination
 import ca.qc.cstj.bottomnavigation.ui.navigation.Screen
 import ca.qc.cstj.bottomnavigation.ui.navigation.core.NavigationItem
-import ca.qc.cstj.bottomnavigation.ui.screens.destinations.FavoritesScreenDestination
-import ca.qc.cstj.bottomnavigation.ui.screens.destinations.ProfileScreenDestination
-import ca.qc.cstj.bottomnavigation.ui.screens.destinations.WeatherScreenDestination
+
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 
 

@@ -29,5 +29,7 @@
     <string name="geographic_position">Latitude: %.2f  Longitude: %.2f</string>
     <string name="favorites">Favorites</string>
     <string name="navigate_to_mediaplayer">Navigate to MediaPlayer</string>
+    <string name="map">Map</string>
+    <string name="loading">Loading %d/10 ...</string>
 
 </resources>

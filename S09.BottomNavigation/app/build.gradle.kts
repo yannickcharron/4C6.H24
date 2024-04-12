@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ksp)
     kotlin("plugin.serialization") version "1.9.0"
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -77,6 +78,9 @@ dependencies {
     implementation(libs.kotlinx.datetime)
 
     implementation(libs.landscapist.glide)
+
+    //https://github.com/googlemaps/android-maps-compose
+    implementation(libs.maps.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

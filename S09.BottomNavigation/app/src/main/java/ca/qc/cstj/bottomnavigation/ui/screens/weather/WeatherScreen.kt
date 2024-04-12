@@ -12,7 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.GpsFixed
+import androidx.compose.material.icons.filled.FmdGood
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import ca.qc.cstj.bottomnavigation.R
 import ca.qc.cstj.bottomnavigation.core.NetworkService
 import ca.qc.cstj.bottomnavigation.core.format
@@ -38,14 +39,18 @@ import ca.qc.cstj.bottomnavigation.core.toLocalDateTimeFormat
 import ca.qc.cstj.bottomnavigation.models.CurrentWeather
 import ca.qc.cstj.bottomnavigation.ui.components.ErrorMessage
 import ca.qc.cstj.bottomnavigation.ui.components.LoadingAnimation
+import ca.qc.cstj.bottomnavigation.ui.destinations.MapScreenDestination
+import ca.qc.cstj.bottomnavigation.ui.navigation.main.SecondLevelNavGraph
+import com.google.android.gms.maps.model.LatLng
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.navigate
 import com.skydoves.landscapist.glide.GlideImage
 
-@RootNavGraph(start = true)
+@SecondLevelNavGraph(start = true)
 @Destination
 @Composable
 fun WeatherScreen(
+    navController: NavController,
     viewModel: WeatherViewModel = viewModel()
 ) {
     val searchTextState by viewModel.searchTextState
@@ -74,7 +79,16 @@ fun WeatherScreen(
             }
 
             is WeatherUiState.Success -> {
-                CurrentWeatherSection(currentWeather = uiState.currentWeather)
+                CurrentWeatherSection(
+                    currentWeather = uiState.currentWeather,
+                    onMapNavigate = {
+                        navController.navigate(
+                            MapScreenDestination(
+                            LatLng(uiState.currentWeather.latitude, uiState.currentWeather.longitude)
+                        )
+                        )
+                    }
+                )
             }
 
             WeatherUiState.Idle -> { /* Nothing to Show here*/ }
@@ -84,7 +98,7 @@ fun WeatherScreen(
 }
 
 @Composable
-fun CurrentWeatherSection(currentWeather: CurrentWeather) {
+fun CurrentWeatherSection(currentWeather: CurrentWeather, onMapNavigate: () -> Unit) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth(0.8f)
@@ -133,9 +147,11 @@ fun CurrentWeatherSection(currentWeather: CurrentWeather) {
                 text = stringResource(id = R.string.geographic_position, currentWeather.latitude, currentWeather.longitude),
                 style = MaterialTheme.typography.bodySmall
             )
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                onMapNavigate()
+            }) {
                 Icon(
-                    imageVector = Icons.Default.GpsFixed, contentDescription = null
+                    imageVector = Icons.Default.FmdGood, contentDescription = null
                 )
             }
         }
