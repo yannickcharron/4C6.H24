@@ -1,0 +1,60 @@
+[versions]
+agp = "8.3.2"
+chromecastSender = "0.28"
+androidyoutubeplayer = "12.1.0"
+fuelJson = "2.3.1"
+fuelAndroid = "2.3.1"
+kotlin = "1.9.0"
+coreKtx = "1.12.0"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+kotlinxSerializationJson = "1.6.0"
+landscapistAnimation = "2.3.2"
+landscapistGlide = "2.3.2"
+landscapistPlaceholder = "2.3.2"
+lifecycleRuntimeCompose = "2.7.0"
+lifecycleRuntimeKtx = "2.7.0"
+activityCompose = "1.8.2"
+composeBom = "2024.04.00"
+ksp = "1.9.0-1.0.13"
+composeDestination = "1.10.2"
+materialIconsExtended = "1.6.5"
+serialization = "1.9.0"
+quickieBundled = "1.8.0"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+androidyoutubeplayer-chromecast = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender", version.ref = "chromecastSender" }
+androidyoutubeplayer-core = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "androidyoutubeplayer" }
+fuel-json = { module = "com.github.kittinunf.fuel:fuel-json", version.ref = "fuelJson" }
+fuel-android = { module = "com.github.kittinunf.fuel:fuel-android", version.ref = "fuelAndroid" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+landscapist-animation = { module = "com.github.skydoves:landscapist-animation", version.ref = "landscapistAnimation" }
+landscapist-glide = { module = "com.github.skydoves:landscapist-glide", version.ref = "landscapistGlide" }
+landscapist-placeholder = { module = "com.github.skydoves:landscapist-placeholder", version.ref = "landscapistPlaceholder" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
+raamcosta-destination = { group ="io.github.raamcosta.compose-destinations", name="core", version.ref = "composeDestination" }
+raamcosta-destination-ksp = { group = "io.github.raamcosta.compose-destinations", name="ksp", version.ref = "composeDestination" }
+quickie-bundled = { module = "io.github.g00fy2.quickie:quickie-bundled", version.ref = "quickieBundled" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id="com.google.devtools.ksp", version.ref = "ksp" }
+serialization = { id="serialization", version.ref = "serialization" }
+
