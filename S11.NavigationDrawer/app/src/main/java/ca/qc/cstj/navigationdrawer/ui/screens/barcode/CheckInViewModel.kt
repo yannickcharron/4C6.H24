@@ -18,8 +18,22 @@ class CheckInViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<CheckInState>(CheckInState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    fun loadCheckIn() {
-        //TODO:
+    init {
+        loadCheckIn()
+    }
+
+    private fun loadCheckIn() {
+        viewModelScope.launch {
+            checkInRepository.retrieveAll().collect { apiResult ->
+                _uiState.update {
+                    when(apiResult) {
+                        is ApiResult.Error -> CheckInState.Error(apiResult.exception)
+                        ApiResult.Loading -> CheckInState.Loading
+                        is ApiResult.Success -> CheckInState.Success(apiResult.data)
+                    }
+                }
+            }
+        }
     }
 
     fun addCheckIn(codeValue: String) {

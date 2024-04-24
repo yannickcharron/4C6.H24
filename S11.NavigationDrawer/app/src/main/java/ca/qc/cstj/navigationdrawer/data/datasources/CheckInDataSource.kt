@@ -18,9 +18,14 @@ class CheckInDataSource {
         //TODO:
     }
 
-    fun retrieveAll() : List<CheckIn> {
-        //TODO:
-        return listOf()
+    fun retrieveAll() :List<CheckIn> {
+        val (_, _, result) = Constants.BaseURL.CHECKIN_URL.httpGet().responseJson()
+
+        return when (result) {
+            is Result.Success -> json.decodeFromString(result.value.content)
+            is Result.Failure -> throw result.getException().exception
+        }
+
     }
 
 }

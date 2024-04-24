@@ -12,8 +12,14 @@ class CheckInRepository {
 
     private val checkInDataSource = CheckInDataSource()
 
-    fun retrieveAll() {
-        //TODO:
+    fun retrieveAll() : Flow<ApiResult<List<CheckIn>>> {
+        return flow {
+            try {
+                emit(ApiResult.Success(checkInDataSource.retrieveAll()))
+            } catch(ex: Exception) {
+                emit(ApiResult.Error(ex))
+            }
+        }.flowOn(Dispatchers.IO)
     }
 
     fun create(checkIn: CheckIn) {
