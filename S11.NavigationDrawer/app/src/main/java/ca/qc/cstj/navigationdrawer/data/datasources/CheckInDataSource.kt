@@ -14,8 +14,19 @@ class CheckInDataSource {
 
     private val json = Json { ignoreUnknownKeys = true }
 
-    fun create(checkIn: CheckIn) {
-        //TODO:
+    fun create(checkIn: CheckIn) : CheckIn {
+        val body = json.encodeToString(checkIn)
+        val (_, _, result) = Constants.BaseURL.CHECKIN_URL
+            .httpPost()
+            .jsonBody(body)
+            .responseJson()
+
+        return when(result) {
+            is Result.Success -> {
+                json.decodeFromString(result.value.content)
+            }
+            is Result.Failure -> throw result.error.exception
+        }
     }
 
     fun retrieveAll() :List<CheckIn> {

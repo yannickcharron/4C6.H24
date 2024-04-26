@@ -36,7 +36,7 @@ fun OthersScreen() {
 
     Column {
 
-        //TODO: Youtube
+        YoutubePlayer(youtubeVideoId = youtubeId, lifecycleOwner = LocalLifecycleOwner.current)
 
         SoundSection()
         IntentsSection()
@@ -47,14 +47,15 @@ fun OthersScreen() {
 fun SoundSection() {
     //https://pixabay.com/sound-effects/
 
+    val mediaPlayer = MediaPlayer.create(LocalContext.current, R.raw.chonologyoflove)
+
     Column(
-        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row {
             IconButton(onClick = {
-                //TODO:
+                mediaPlayer.start()
             }) {
                 Icon(
                     imageVector = Icons.Default.PlayCircle,
@@ -64,7 +65,7 @@ fun SoundSection() {
             }
 
             IconButton(onClick = {
-                //TODO:
+                mediaPlayer.pause()
             }) {
                 Icon(
                     imageVector = Icons.Default.PauseCircle,
@@ -82,7 +83,8 @@ fun IntentsSection() {
     LazyRow {
         item {
             Button(onClick = {
-               //TODO:
+               val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:450-436-1580"))
+                context.startActivity(dialIntent)
             }) {
                 Text(text = stringResource(R.string.phone))
             }
@@ -90,7 +92,9 @@ fun IntentsSection() {
 
         item {
             Button(onClick = {
-                //TODO:
+                val smsIntent = Intent(Intent.ACTION_VIEW, Uri.parse("smsto:5149370707"))
+                smsIntent.putExtra("sms_body", "Bonjour c'est pour un déménagement")
+                context.startActivity(smsIntent)
             }) {
                 Text(text = stringResource(R.string.sms))
             }
@@ -98,7 +102,9 @@ fun IntentsSection() {
 
         item {
             Button(onClick = {
-                //TODO:
+                val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=restaurants"))
+                mapIntent.setPackage("com.google.android.apps.maps")
+                context.startActivity(mapIntent)
             }) {
                 Text(text = stringResource(R.string.maps))
             }
@@ -106,7 +112,9 @@ fun IntentsSection() {
 
         item {
             Button(onClick = {
-                //TODO:
+                val calculatorIntent = Intent(Intent.ACTION_MAIN)
+                calculatorIntent.addCategory(Intent.CATEGORY_APP_CALCULATOR)
+                context.startActivity(calculatorIntent)
             }) {
                 Text(text = stringResource(R.string.calculator))
             }
@@ -114,7 +122,9 @@ fun IntentsSection() {
 
         item {
             Button(onClick = {
-                //TODO:
+                val calculatorIntent = Intent(Intent.ACTION_MAIN)
+                calculatorIntent.addCategory(Intent.CATEGORY_APP_CALENDAR)
+                context.startActivity(calculatorIntent)
             }) {
                 Text(text = stringResource(R.string.calendar))
             }

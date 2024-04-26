@@ -18,11 +18,8 @@ class CheckInViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<CheckInState>(CheckInState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    init {
-        loadCheckIn()
-    }
 
-    private fun loadCheckIn() {
+     fun loadCheckIn() {
         viewModelScope.launch {
             checkInRepository.retrieveAll().collect { apiResult ->
                 _uiState.update {
@@ -37,7 +34,16 @@ class CheckInViewModel : ViewModel() {
     }
 
     fun addCheckIn(codeValue: String) {
-        //TODO:
+        viewModelScope.launch {
+            val checkIn = CheckIn(codeValue, Constants.DOOR)
+            checkInRepository.create(checkIn).collect {
+                when(it) {
+                    is ApiResult.Error -> {}
+                    ApiResult.Loading -> {}
+                    is ApiResult.Success -> {}
+                }
+            }
+        }
     }
 
 }
