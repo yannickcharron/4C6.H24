@@ -9,8 +9,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,15 +45,21 @@ fun DetailsPlanetScreen(planet: Planet) {
 
 @Composable
 fun PortraitLayout(planet: Planet) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    val lazyListState = rememberLazyListState()
+
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())
+    ) {
         PlanetCard(planet = planet)
         Text(text = stringResource(R.string.portals), style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.padding(bottom = 8.dp))
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        LazyColumn(modifier = Modifier.size(800.dp), state = lazyListState) {
             items(planet.portals) {
                 PortalCard(it)
             }
         }
+
     }
 }
 

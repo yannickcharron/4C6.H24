@@ -1,6 +1,7 @@
-package ca.qc.cstj.navigationdrawer.ui.screens.orientation
+ package ca.qc.cstj.navigationdrawer.ui.screens.orientation
 
 import android.content.res.Configuration
+import android.widget.Space
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,20 +24,56 @@ import com.ramcosta.composedestinations.annotation.Destination
 @Destination
 fun OrientationScreen() {
 
-    //TODO:
-    Column(
-        modifier = Modifier.fillMaxSize().padding(4.dp)
-    ) {
-        FirstSection(isLandscape = false)
-        Spacer(modifier = Modifier.padding(vertical = 4.dp))
-        SecondSection(isLandscape = false)
+    val orientation = LocalConfiguration.current.orientation
+
+    if(orientation == Configuration.ORIENTATION_PORTRAIT) {
+        //Portrait
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(4.dp)
+        ) {
+            FirstSection(modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.5f),
+                isLandscape = false
+            )
+            Spacer(modifier = Modifier.padding(vertical = 4.dp))
+            SecondSection(modifier =  Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+                isLandscape = false
+            )
+        }
+    } else if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        //Paysage
+        Row(modifier = Modifier
+            .fillMaxSize()
+            .padding(4.dp)
+        ) {
+            FirstSection(isLandscape = true,
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .fillMaxHeight()
+            )
+            Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+            SecondSection(
+                isLandscape = true,
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+        }
     }
+
+
+
+
 }
 
 @Composable
-fun FirstSection(isLandscape: Boolean) {
+fun FirstSection(isLandscape: Boolean, modifier: Modifier = Modifier) {
     //TODO:
-    ElevatedCard {
+    ElevatedCard(modifier = modifier) {
         Text(text = stringResource(R.string.first))
         Text(text = if(isLandscape) stringResource(R.string.landscape) else stringResource(R.string.portrait))
     }
@@ -44,9 +81,9 @@ fun FirstSection(isLandscape: Boolean) {
 
 
 @Composable
-fun SecondSection(isLandscape: Boolean) {
+fun SecondSection(isLandscape: Boolean, modifier: Modifier = Modifier) {
     //TODO:
-    ElevatedCard {
+    ElevatedCard(modifier = modifier) {
         Text(text = stringResource(R.string.second))
         Text(text = if(isLandscape) stringResource(R.string.landscape) else stringResource(R.string.portrait))
     }
