@@ -23,11 +23,11 @@ import com.ramcosta.composedestinations.navigation.navigate
 @Composable
 fun FavoritesScreen(
     navController: NavController,
-    onMainScreenEvent: (MainViewModel.ScreenEvent.In) -> Unit
+    onMainScreenEvent: (MainViewModel.ScreenEvent.ToViewModel) -> Unit
 ) {
 
     LaunchedEffect(true) {
-        onMainScreenEvent(MainViewModel.ScreenEvent.In.FormatTitle("Yannick"))
+        onMainScreenEvent(MainViewModel.ScreenEvent.ToViewModel.OnTitleFormat("Yannick"))
     }
 
     Column(modifier = Modifier
@@ -42,7 +42,7 @@ fun FavoritesScreen(
         }
 
         Button(onClick = {
-            onMainScreenEvent(MainViewModel.ScreenEvent.In.ShowSnackbar("Message"))
+            onMainScreenEvent(MainViewModel.ScreenEvent.ToViewModel.ShowSnackbar(R.string.message))
         }) {
             Text("Snackbar")
         }

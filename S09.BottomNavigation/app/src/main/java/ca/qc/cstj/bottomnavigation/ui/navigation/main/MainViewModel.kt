@@ -1,5 +1,6 @@
 package ca.qc.cstj.bottomnavigation.ui.navigation.main
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.Channel
@@ -14,42 +15,48 @@ class MainViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _eventsChannel = Channel<ScreenEvent.Out>()
-    val eventChannel = _eventsChannel.consumeAsFlow()
+    private val _eventsChannel = Channel<ScreenEvent.ToView>()
+    val events = _eventsChannel
 
-    fun onEvent(event: ScreenEvent.In) {
-
-        when(event) {
-            is ScreenEvent.In.ShowSnackbar -> {
-                //Log.d("MainEvent", event.message)
-                viewModelScope.launch {
-                    _eventsChannel.send(ScreenEvent.Out.ShowSnackbar(event.message))
+    fun onEvent(event: ScreenEvent.ToViewModel) {
+        when (event) {
+            is ScreenEvent.ToViewModel.OnTitleFormat -> {
+                _uiState.update {
+                    _uiState.value.copy(_titleFormatArgs = event.formatArgs.toList())
                 }
             }
 
-            is ScreenEvent.In.FormatTitle -> {
-                _uiState.update {
-                    it.copy(_titleFormatArgs = event.formatArgs.toList())
+            is ScreenEvent.ToViewModel.ShowSnackbar -> {
+                viewModelScope.launch {
+                    _eventsChannel.send(ScreenEvent.ToView.ShowSnackbar(
+                        messageId = event.messageId ,
+                        actionLabel = event.actionLabel)
+                    )
+                }
+            }
+
+            is ScreenEvent.ToViewModel.ShowMessage -> {
+                viewModelScope.launch {
+                    _eventsChannel.send(ScreenEvent.ToView.ShowMessage(event.message))
                 }
             }
         }
-
     }
 
     sealed interface ScreenEvent {
-
-        //Évènements entrants
-        sealed class In {
-            class FormatTitle(vararg val formatArgs: Any) : In()
-            data class ShowSnackbar(val message: String) : In()
+        sealed class ToViewModel {
+            class OnTitleFormat(vararg val formatArgs: Any) : ToViewModel()
+            data class ShowSnackbar(@StringRes val messageId: Int = 0, @StringRes val actionLabel: Int = 0): ToViewModel()
+            data class ShowMessage(val message: String): ToViewModel()
 
         }
 
-        //Évènements sortants vers le Composable (MainScreen)
-        sealed class Out {
-            data class ShowSnackbar(val message:String) : Out()
-        }
+        sealed class ToView {
+            data class ShowSnackbar(@StringRes val messageId: Int = 0, @StringRes val actionLabel: Int = 0): ToView()
 
+            data class ShowMessage(val message: String): ToView()
+
+        }
     }
 
 }

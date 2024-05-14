@@ -31,5 +31,6 @@
     <string name="map">Map</string>
     <string name="loading">Loading %d/%d …</string>
     <string name="bonjour">Bonjour %s</string>
+    <string name="message">Message</string>
 
 </resources>

@@ -15,7 +15,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import ca.qc.cstj.bottomnavigation.ui.NavGraphs
@@ -31,6 +35,7 @@ import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.navigation.navigate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 
@@ -48,7 +53,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
     //onMainScreenEvent Callback (lambda)
-    val onMainScreenEvent : (MainViewModel.ScreenEvent.In) -> Unit = { viewModel.onEvent(it) }
+    val onMainScreenEvent : (MainViewModel.ScreenEvent.ToViewModel) -> Unit = { viewModel.onEvent(it) }
 
     //currentScreen definition
     //(gauche) ?: (droite) Si la partie de gauche est nulle la partie de droite est retournée
@@ -56,12 +61,35 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
         ?: NavGraphs.secondLevel.startAppDestination.screen
 
 
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     LaunchedEffect(true) {
-        viewModel.eventChannel.collectLatest {
-            when(it) {
-                is MainViewModel.ScreenEvent.Out.ShowSnackbar -> {
-                    coroutineScope.launch {
-                        snackbarHostState.showSnackbar(message = it.message)
+        lifecycleOwner.lifecycleScope.launch {
+
+            viewModel.events.receiveAsFlow().flowWithLifecycle(lifecycleOwner.lifecycle).collect { event ->
+                when (event) {
+                    is MainViewModel.ScreenEvent.ToView.ShowSnackbar -> {
+                        coroutineScope.launch {
+                            if (event.actionLabel == 0) {
+                                snackbarHostState.showSnackbar(
+                                    message = context.getString(event.messageId)
+                                )
+                            } else {
+                                snackbarHostState.showSnackbar(
+                                    message = context.getString(event.messageId),
+                                    actionLabel = context.getString(event.actionLabel)
+                                )
+                            }
+                        }
+                    }
+
+                    is MainViewModel.ScreenEvent.ToView.ShowMessage -> {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = event.message
+                            )
+                        }
                     }
                 }
             }
